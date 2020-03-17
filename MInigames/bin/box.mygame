@@ -1,0 +1,560 @@
+Mainwindow move_Boxes(width = 160, height = 230)
+
+Var int i;
+
+Var int j;
+
+Var int isboxnwall;
+
+Var int isboxnbox;
+ 
+Var int iswall;
+
+Var int isbox;
+
+Var int num_destination = 3;
+
+Var int counter = 0;
+ 
+Destination destinations[3];
+
+GameProps boxes[3]; 
+
+Player player(x = 40, y = 20, edge=20);
+
+Obstacle obstacles[34];
+
+Obstacle winsign[29];
+
+Main{
+
+	for (i=0;i<3 ;i= i+1)   
+    {
+    	boxes[i].edge = 20 ; 
+        destinations[i].edge = 20 ; 
+    }  
+    
+    for (i = 0; i < 34; i = i+1)    
+    {
+    	obstacles[i].edge = 20 ; 
+    }  
+
+	destinations[0].x = 20;
+    destinations[0].y = 80;
+	destinations[1].x = 40;
+    destinations[1].y = 40;
+    destinations[2].x = 20;
+    destinations[2].y = 120;
+    
+    boxes[0].x = 60;
+    boxes[0].y = 40;
+	boxes[1].x = 40;
+    boxes[1].y = 100;
+	boxes[2].x = 100;
+    boxes[2].y = 120;
+    
+    for (i = 0; i < 5; i = i+1)    
+    {
+        obstacles[i].x = 20+i*20;
+        obstacles[i].y = 0;
+    } 
+    
+    obstacles[5].x = 20;
+    obstacles[5].y = 20;
+    for (i = 0; i < 3; i = i+1)    
+    {
+        obstacles[i+6].x = 80+i*20;
+        obstacles[i+6].y = 20;
+    } 
+    
+    obstacles[9].x = 20;
+    obstacles[9].y = 40;
+    
+    obstacles[10].x = 120;
+    obstacles[10].y = 40;
+    
+     for (i = 0; i < 3; i = i+1)    
+    {
+        obstacles[i+11].x = i*20;
+        obstacles[i+11].y = 60;
+    } 
+    
+    obstacles[14].x = 80;
+    obstacles[14].y = 60;
+    
+    for (i = 0; i < 2; i = i+1)    
+    {
+        obstacles[i+15].x = 120+i*20;
+        obstacles[i+15].y = 60;
+    } 
+    
+    obstacles[17].x = 0;
+    obstacles[17].y = 80;
+    
+    obstacles[18].x = 40;
+    obstacles[18].y = 80;
+    
+    obstacles[19].x = 80;
+    obstacles[19].y = 80;
+    
+    obstacles[20].x = 140;
+    obstacles[20].y = 80;
+    
+    obstacles[21].x = 0;
+    obstacles[21].y = 100;
+    
+    obstacles[22].x = 100;
+    obstacles[22].y = 100;
+    
+    obstacles[23].x = 140;
+    obstacles[23].y = 100;
+    
+    obstacles[24].x = 0;
+    obstacles[24].y = 120;
+    
+    obstacles[25].x = 140;
+    obstacles[25].y = 120;
+    
+    for (i = 0; i < 8; i = i+1)    
+    {
+        obstacles[i+26].x = i*20;
+        obstacles[i+26].y = 140;
+    } 
+    
+    for (i = 0; i < 4; i = i+1)    
+    {
+        winsign[i].x = 5;
+        winsign[i].y = 180 + i*10;
+    } 
+    
+    winsign[4].x = 15;
+    winsign[4].y = 210;
+        
+    for (i = 0; i < 4; i = i+1)    
+    {
+        winsign[i+5].x = 25;
+        winsign[i+5].y = 180 + i*10;
+    } 
+    
+    winsign[9].x = 35;
+    winsign[9].y = 210;
+    
+    for (i = 0; i < 4; i = i+1)    
+    {
+        winsign[i+10].x = 45;
+        winsign[i+10].y = 180 + i*10;
+    } 
+    
+    for (i = 0; i < 4; i = i+1)    
+    {
+        winsign[i+14].x = 65;
+        winsign[i+14].y = 180 + i*10;
+    } 
+    
+    for (i = 0; i < 4; i = i+1)    
+    {
+        winsign[i+18].x = 85;
+        winsign[i+18].y = 180 + i*10;
+    } 
+    
+    winsign[22].x = 95;
+    winsign[22].y = 180;
+    
+    winsign[23].x = 105;
+    winsign[23].y = 190;
+    
+    winsign[24].x = 115;
+    winsign[24].y = 200;
+    
+    for (i = 0; i < 4; i = i+1)    
+    {
+        winsign[i+25].x = 125;
+        winsign[i+25].y = 180 + i*10;
+    } 
+    
+   for(i = 0; i < 29; i = i+1)
+	{
+		winsign[i].visible = 0;
+		winsign[i].edge = 10 ; 
+	}
+ 
+}
+
+Trigger LEFT
+{
+	isboxnwall = 0;
+	isboxnbox = 0;
+	isbox = 0;
+	iswall = 0;
+	
+	for (i = 0; i < 3; i = i+1)
+    {
+    	if (player.x-20 == boxes[i].x)
+    	{	
+    		if (player.y == boxes[i].y)
+    		{
+    		isbox = 1;
+    		
+    		for (j = 0; j < 34; j = j+1)
+    		{
+    			if(boxes[i].x-20 == obstacles[j].x)
+    			{	
+    				if(boxes[i].y == obstacles[j].y)
+    				{
+    				isboxnwall = 1;
+    				j = 34;
+    				}
+    			}
+    		}
+    		
+    		if(isboxnwall == 0)
+    		{
+    			for (j=0; j<3; j=j+1)
+    			{
+    				if(!(i == j))
+    				{
+    					if(boxes[i].x-20 == boxes[j].x)
+    					{
+    						if(boxes[i].y == boxes[j].y)
+    						{
+    						isboxnbox = 1;
+    						j = 3;
+    						}
+    					}
+    				}
+    			}
+    			if(isboxnbox == 0)
+    			{	
+    				for(j=0; j<3; j=j+1)
+    				{
+    					if(boxes[i].x-20 == destinations[j].x)
+    					{	
+    						if(boxes[i].y == destinations[j].y)
+    						{
+    						counter = counter + 1;
+    						}
+    					}
+    				}
+    				
+    				boxes[i].x = boxes[i].x -20;
+    				player.x = player.x -20;
+    			}
+    		}
+    		}
+    	}
+    }
+    
+    if(isbox == 0)
+    {
+		for (j = 0; j < 34; j = j+1)
+		{
+			if(player.x-20 == obstacles[j].x )
+			{	
+				if(player.y == obstacles[j].y)
+				{
+				iswall = 1;
+				j = 34;
+				}
+			}
+		}
+		
+		if(iswall == 0)
+		{
+			player.x = player.x -20;
+		}
+    }
+    
+	
+    	  
+    
+    if (counter == num_destination)
+    {
+    	for(i = 0; i < 29; i = i+1)
+		{
+			winsign[i].visible = 1;
+		}
+    }
+    
+    
+}
+
+Trigger RIGHT
+{
+	isboxnwall = 0;
+	isboxnbox = 0;
+	iswall = 0;
+	isbox = 0;
+	
+	for (i = 0; i < 3; i = i+1)
+    {
+    	if (player.x+20 == boxes[i].x)
+    	{
+    		if (player.y == boxes[i].y)
+    		{
+    		isbox = 1;	
+    		for (j = 0; j < 34; j = j+1)
+    		{
+    			if(boxes[i].x+20 == obstacles[j].x )
+    			{	
+    				if(boxes[i].y == obstacles[j].y)
+    				{
+    				isboxnwall = 1;
+    				j = 34;
+    				}
+    			}
+    		}
+    		
+    		if(isboxnwall == 0)
+    		{
+    			for (j=0; j<3; j=j+1)
+    			{
+    				if(!(i == j))
+    				{
+    					if(boxes[i].x+20 == boxes[j].x)
+    					{
+    						if(boxes[i].y == boxes[j].y)
+    						{
+    						isboxnbox = 1;
+    						j = 3;
+    						}
+    					}
+    				}
+    			}
+    			if(isboxnbox == 0)
+    			{	
+    				for(j=0; j<3; j=j+1)
+    				{
+    					if(boxes[i].x+20 == destinations[j].x )
+    					{	
+    						if(boxes[i].y == destinations[j].y)
+    						{
+    						counter = counter + 1;
+    						}
+    					}
+    				}
+    				
+    				boxes[i].x = boxes[i].x +20;
+    				player.x = player.x + 20;
+    			}
+    		}
+    		}
+    	}
+    	
+    }
+    
+    if(isbox == 0)
+    {
+		for (j = 0; j < 34; j = j+1)
+		{
+			if(player.x+20 == obstacles[j].x)
+			{	
+				if(player.y == obstacles[j].y)
+				{
+				iswall = 1;
+				j = 34;
+				}
+			}
+		}
+		
+		if(iswall == 0)
+		{
+			player.x = player.x +20;
+		}
+    }
+    
+    if (counter == num_destination)
+    {
+    	for(i = 0; i < 29; i = i+1)
+		{
+			winsign[i].visible = 1;
+		}
+    }
+}
+
+Trigger UP
+{
+	
+	
+	isboxnwall = 0;
+	isboxnbox = 0;
+	iswall = 0;
+	isbox = 0;
+	
+	for (i = 0; i < 3; i = i+1)
+    {
+    	if (player.y-20 == boxes[i].y )
+    	{
+    		if (player.x == boxes[i].x)
+    		{
+    		isbox = 1;	
+    		for (j = 0; j < 34; j = j+1)
+    		{
+    			if(boxes[i].y-20 == obstacles[j].y )
+    			{	
+    				if(boxes[i].x == obstacles[j].x)
+    				{
+    				isboxnwall = 1;
+    				j = 34;
+    				}
+    			}
+    		}
+    		
+    		if(isboxnwall == 0)
+    		{
+    			for (j=0; j<3; j=j+1)
+    			{
+    				if(!(i == j))
+    				{
+    					if(boxes[i].y-20 == boxes[j].y)
+    					{
+    						if(boxes[i].x == boxes[j].x)
+    						{
+    						isboxnbox = 1;
+    						j = 3;
+    						}
+    					}
+    				}
+    			}
+    			if(isboxnbox == 0)
+    			{	
+    				for(j=0; j<3; j=j+1)
+    				{
+    					if(boxes[i].y-20 == destinations[j].y)
+    					{	
+    						if(boxes[i].x == destinations[j].x)
+    						{
+    						counter = counter + 1;
+    						}
+    					}
+    				}
+    				
+    				boxes[i].y = boxes[i].y-20;
+    				player.y = player.y- 20;
+    			}
+    		}
+    		}
+    	}
+
+    }
+    
+    if(isbox == 0)
+    {
+		for (j = 0; j < 34; j = j+1)
+		{
+			if(player.y-20 == obstacles[j].y)
+			{	
+				if(player.x == obstacles[j].x)
+				{
+				iswall = 1;
+				j = 34;
+				}
+			}
+		}
+		
+		if(iswall == 0)
+		{
+			player.y = player.y- 20;
+		}
+    }
+    
+    if (counter == num_destination)
+    {
+    	for(i = 0; i < 29; i = i+1)
+		{
+			winsign[i].visible = 1;
+		}
+    }
+}
+
+Trigger DOWN
+{
+	isboxnwall = 0;
+	isboxnbox = 0;
+    iswall = 0;
+	isbox = 0;
+	
+	for (i = 0; i < 3; i = i+1)
+    {
+    	if (player.y+20 == boxes[i].y)
+    	{	
+    		if (player.x == boxes[i].x)
+    		{
+    		isbox = 1;
+    		for (j = 0; j < 34; j = j+1)
+    		{
+    			if(boxes[i].y+20 == obstacles[j].y)
+    			{	
+    				if(boxes[i].x == obstacles[j].x)
+    				{
+    				isboxnwall = 1;
+    				j = 34;
+    				}
+    			}
+    		}
+    		
+    		if(isboxnwall == 0)
+    		{
+    			for (j=0; j<3; j=j+1)
+    			{
+    				if(!(i == j))
+    				{
+    					if(boxes[i].y+20 == boxes[j].y)
+    					{
+    						if(boxes[i].x == boxes[j].x)
+    						{
+    						isboxnbox = 1;
+    						j = 3;
+    						}
+    					}
+    				}
+    			}
+    			if(isboxnbox == 0)
+    			{	
+    				for(j=0; j<3; j=j+1)
+    				{
+    					if(boxes[i].y+20 == destinations[j].y)
+    					{	
+    						if(boxes[i].x == destinations[j].x)
+    						{
+    						counter = counter + 1;
+    						}
+    					}
+    				}
+    			
+    				boxes[i].y = boxes[i].y+20;
+    				player.y = player.y+ 20;
+    			}
+    		}
+    		}
+    	}
+    	
+    }
+    
+    if(isbox == 0)
+    {
+		for (j = 0; j < 34; j = j+1)
+		{
+			if(player.y+20 == obstacles[j].y)
+			{	
+				if(player.x == obstacles[j].x)
+				{
+				iswall = 1;
+				j = 34;
+				}
+			}
+		}
+		
+		if(iswall == 0)
+		{
+			player.y = player.y+ 20;
+		}
+    }
+    
+    if (counter == num_destination)
+    {
+    	for(i = 0; i < 29; i = i+1)
+		{
+			winsign[i].visible = 1;
+		}
+    }
+}
